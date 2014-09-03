@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Convert</h1>
+        <form method="post" class="form-signin" action="/admin" th:action="@{/admin/tv/episode/} + ${episodeId} + '/video/' + ${videoId} + '/convert'" th:object="${conversionItem}">
+            <h2 class="form-signin-heading">Convert</h2>
+            <div class="form-group">
+                <select th:field="*{priority}" class="form-control">
+                    <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}">Low</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select th:field="*{profileId}" class="form-control">
+                    <option th:each="profile: ${profiles}" th:value="${profile.id}" th:text="${profile.label}">Profile</option>
+                </select>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+        </form>
+
+    </div>
+
+</div><!-- /.container -->
+
+
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>
+

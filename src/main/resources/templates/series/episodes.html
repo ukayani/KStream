@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: menu"></div>
+<div class="container">
+    <h1 th:text="|${series.name} Episodes|">Episodes</h1>
+
+    <div class="season" th:each="season : ${seasons}">
+    <h2 th:text="|Season ${seasonStat.count}|">Season</h2>
+
+        <table class="table table-hover">
+            <thead>
+            <th>Number</th>
+            <th>Name</th>
+            <th class="hidden-xs">First Aired</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+            <tr th:each="episode : ${season}">
+                <td th:text="${episodeStat.count}" class="col-md-1">1</td>
+                <td th:text="${episode.name}" class="col-md-3">Some Show</td>
+                <td class="hidden-xs" th:text="${episode.firstAired}">N/A</td>
+                <td><a href="/tv/episodes/id" th:href="@{/tv/watch/episode/} + ${episode.id}" class="btn btn-primary" th:classappend="${episode.visibleVideoCount == 0}? 'disabled':''">Watch</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div><!-- /.container -->
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>

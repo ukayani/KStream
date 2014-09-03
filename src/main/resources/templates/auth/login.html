@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Signin to KStream</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/bootstrap/bootstrap.css" th:href="@{/r/css/bootstrap/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/bootstrap/bootstrap-theme.css" th:href="@{/r/css/bootstrap/bootstrap-theme.css}" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/style.css" th:href="@{/r/css/style.css}" />
+
+</head>
+
+<body>
+
+<div class="container">
+    <form method="post" class="form-signin" action="/login" th:action="@{/login}">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" name="username" class="form-control" placeholder="Username" autofocus=""/>
+        <input type="password" name="password" class="form-control" placeholder="Password"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+</div> <!-- /container -->
+
+</body>
+</html>

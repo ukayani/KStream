@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Add Video</h1>
+        <form method="post" class="form-inline" action="/admin" th:action="@{/admin/tv/series/episode/} + ${episodeId} + '/video/add'" th:object="${video}">
+            <h2 class="form-signin-heading">Video</h2>
+            <div class="form-group">
+                <input type="text" name="videoPath" id="videoPath" class="form-control" placeholder="Video Path" readonly=""/>
+            </div>
+            <button id="ks-browse-btn" type="button" class="btn btn-default">Browse</button>
+            <button id="ks-add-btn" type="submit" class="btn btn-default">Add</button>
+        </form>
+
+    </div>
+
+</div><!-- /.container -->
+
+<div th:replace="layout/layout :: browser"></div>
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+<script type="application/javascript">
+    $(document).ready(function(){
+        var browser = Kstream.Browser.create("#browser", false);
+        var pathField = $("#videoPath");
+
+        function setFilePath(selectedFiles){
+            if (selectedFiles.length > 0){
+                pathField.val(selectedFiles[0].path);
+            }
+            browser.close();
+        }
+        browser.onSubmit(setFilePath);
+
+        $("#ks-browse-btn").click(function(){
+            browser.open();
+        });
+
+
+
+
+    });
+</script>
+</body>
+</html>
+

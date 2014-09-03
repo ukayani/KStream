@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+<div class="container">
+    <h1 th:text="|${episode.name} Videos|">Episodes</h1>
+
+        <table class="table table-hover">
+            <thead>
+            <th>Number</th>
+            <th>Url</th>
+            <th>Resolution</th>
+            <th>Duration</th>
+            <th>Size</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+            <tr th:each="video : ${episode.videos}">
+                <td th:text="${videoStat.count}" class="col-md-1">1</td>
+                <td th:text="${#strings.abbreviate(video.url, 20)}" class="col-md-3">Some Show</td>
+                <td th:text="|${video.width}x${video.height}|">N/A</td>
+                <td th:text="|${video.duration / 3600}:${video.duration / 60 - (video.duration / 3600) * 60}:${video.duration - (video.duration/60) * 60}h|">Duration</td>
+                <td th:text="|${video.size/1000000}mb|">size</td>
+                <td><a href="#" th:href="@{/admin/tv/episode/} + ${episode.id} + '/video/' + ${video.id} + '/convert'" class="btn btn-primary">Convert</a>
+                    <a href="#" th:href="@{/admin/tv/episode/} + ${episode.id} + '/video/' + ${video.id} + '/delete'" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+</div><!-- /.container -->
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>

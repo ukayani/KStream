@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Add Profile</h1>
+        <form method="post" class="form-signin" action="/admin" th:action="@{/admin/conversion/profile/add}" th:object="${profile}">
+            <h2 class="form-signin-heading">Profile</h2>
+            <div class="form-group">
+                <input type="text" th:field="*{label}" class="form-control" placeholder="Profile Label"/>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{fileSuffix}" class="form-control" placeholder="File Suffix"/>
+            </div>
+            <div class="form-group">
+                <select th:field="*{container}" class="form-control">
+                    <option th:each="c : ${containers}" th:value="${c}" th:text="${c}">MP4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select th:field="*{audioCodec}" class="form-control">
+                    <option th:each="c : ${codecs}" th:value="${c}" th:text="${c}">H264</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{audioBitrate}" class="form-control" placeholder="Audio Bitrate"/>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{audioOptions}" class="form-control" placeholder="Audio Options"/>
+            </div>
+            <div class="form-group">
+                <select th:field="*{videoCodec}" class="form-control">
+                    <option th:each="c : ${codecs}" th:value="${c}" th:text="${c}">MP4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{videoBitrate}" class="form-control" placeholder="Video Bitrate"/>
+            </div>
+            <div class="form-group">
+                <input type="text" th:field="*{videoOptions}" class="form-control" placeholder="Video Options"/>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+        </form>
+
+    </div>
+
+</div><!-- /.container -->
+
+
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+<div class="container">
+    <div class="row">
+        <h1 class="col-md-8" th:text="|${series.name} Episodes|">Episodes</h1>
+        <div class="col-md-4 ks-top-control"><a id="addMulti" class="btn btn-default pull-right">Add Multiple</a></div>
+    </div>
+    <div class="season" th:each="season : ${seasons}">
+        <h2 th:text="|Season ${seasonStat.count}|">Season</h2>
+
+        <table class="table table-hover">
+            <thead>
+            <th>Number</th>
+            <th>Name</th>
+            <th>First Aired</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+            <tr th:each="episode : ${season}">
+                <td th:text="${episodeStat.count}" class="col-md-1">1</td>
+                <td th:text="${episode.name}" class="col-md-3">Some Show</td>
+                <td th:text="${episode.firstAired}">N/A</td>
+                <td><a href="/admin/tv/episodes/id" th:href="@{/admin/tv/series/episode/} + ${episode.id} + '/video/add'" class="btn btn-primary">Add Video</a>
+                    <a href="/admin/tv/episodes/id" th:href="@{/admin/tv/series/episode/} + ${episode.id} + '/videos'" class="btn btn-primary" th:classappend="${episode.totalVideoCount == 0}? 'disabled':''">Videos</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div><!-- /.container -->
+<div th:replace="layout/layout :: browser"></div>
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+<script type="application/javascript" th:inline="javascript">
+
+    var seriesId = /*[[${series.id}]]*/ 0;
+
+    $(document).ready(function(){
+
+        var browser = Kstream.Browser.create("#browser");
+
+        var pathField = [];
+
+        function setFilePath(selectedFiles){
+            pathField = selectedFiles;
+            browser.close();
+            console.log(pathField);
+
+            if (pathField.length == 0) return;
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/tv/series/"+ seriesId +"/video/multiadd",
+                headers:Kstream.Csrf,
+                data: JSON.stringify(pathField),
+                contentType: 'application/json',
+                success: function(data){
+                    if (data.status == 'OK') alert("OK");
+                }
+            });
+
+        }
+        browser.onSubmit(setFilePath);
+
+        $("#addMulti").click(function(){
+            browser.open();
+        });
+
+    });
+</script>
+</body>
+</html>

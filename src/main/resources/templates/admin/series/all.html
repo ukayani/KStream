@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: adminmenu"></div>
+<div class="container">
+    <h1>Added Shows</h1>
+    <table th:if="${seriesList} != null" class="table table-hover">
+        <thead>
+        <th>Name</th>
+        <th>Network</th>
+        <th>First Aired</th>
+        <th>Action</th>
+        </thead>
+        <tbody>
+        <tr th:each="series : ${seriesList}">
+            <td th:text="${series.name}">Some Show</td>
+            <td th:text="${series.network}">HBO</td>
+            <td th:text="${series.firstAired}">N/A</td>
+            <td><a href="/admin/tv/series/delete/id" th:href="@{/admin/tv/series/} + ${series.id} + '/episodes'" class="btn btn-primary">Episodes</a>
+                <a href="/admin/tv/series/delete/id" th:href="@{/admin/tv/series/} + ${series.id} + '/settings'" class="btn btn-default">Settings</a>
+                <a href="/admin/tv/series/delete/id" th:href="@{/admin/tv/series/} + ${series.id} + '/delete'" class="btn btn-danger">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<!-- /.container -->
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>

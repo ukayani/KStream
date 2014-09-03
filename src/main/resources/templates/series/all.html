@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+<div th:replace="layout/layout :: menu"></div>
+<div class="container">
+<h1>Added Shows</h1>
+    <table th:if="${seriesList} != null" class="table table-hover">
+        <thead>
+        <th>Name</th>
+        <th class="hidden-xs">Network</th>
+        <th class="hidden-xs">First Aired</th>
+        <th>Action</th>
+        </thead>
+        <tbody>
+        <tr th:each="series : ${seriesList}">
+            <td th:text="${series.name}">Some Show</td>
+            <td class="hidden-xs" th:text="${series.network}">HBO</td>
+            <td class="hidden-xs" th:text="${series.firstAired}">N/A</td>
+            <td><a href="/tv/episodes/id" th:href="@{/tv/series/} + ${series.id} + '/episodes'" class="btn btn-primary">Episodes</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div><!-- /.container -->
+<!-- JS INCLUDES -->
+<div th:replace="layout/layout :: scripts">Scripts</div>
+</body>
+</html>
