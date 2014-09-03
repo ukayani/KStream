@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `series` (
   `air_day` VARCHAR(15),
   `air_time` VARCHAR(10),
   `runtime` VARCHAR(20),
+  `last_updated` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE (`imdb_id`),
   UNIQUE (`tvdb_id`)

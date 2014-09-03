@@ -29,38 +29,51 @@ public class SeriesMapper implements Mapper<Series, kstream.domain.Series> {
     public kstream.domain.Series map(Series series){
 
         kstream.domain.Series dest = new kstream.domain.Series();
-        dest.setTvDbId(series.getId());
-        dest.setName(series.getSeriesName());
-        series.getGenres().stream().map(g -> getGenreByName(g)).forEach(g -> dest.addGenre(g));
-        dest.setAirDay(series.getAirsDayOfWeek());
-        dest.setAirTime(series.getAirsTime());
-        dest.setBanner(series.getBanner());
-        dest.setPriority(ConversionPriority.Low);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date firstAirDate = null;
-        try {
-            firstAirDate = formatter.parse(series.getFirstAired());
-        }
-        catch (Exception e){
-
-        }
-
-        dest.setFirstAired(firstAirDate);
-        dest.setContentRating(series.getContentRating());
-        dest.setImdbId(series.getImdbId());
-        dest.setNetwork(series.getNetwork());
-        dest.setOverview(series.getOverview());
-        dest.setRating(Double.parseDouble(series.getRating()));
-        dest.setRuntime(series.getRuntime());
-        dest.setStatus(series.getStatus());
-
+        update(series, dest);
         return dest;
     }
 
     public Series get(kstream.domain.Series series){
         throw new NotImplementedException();
     }
+
+    @Override
+    public void update(Series source, kstream.domain.Series toUpdate) {
+
+        toUpdate.setTvDbId(source.getId());
+        toUpdate.setName(source.getSeriesName());
+
+        // don't update genres if it already had them
+        if (toUpdate.getGenres() == null || toUpdate.getGenres().size() == 0){
+            source.getGenres().stream().map(g -> getGenreByName(g)).forEach(g -> toUpdate.addGenre(g));
+        }
+
+        toUpdate.setAirDay(source.getAirsDayOfWeek());
+        toUpdate.setAirTime(source.getAirsTime());
+        toUpdate.setBanner(source.getBanner());
+        toUpdate.setPriority(ConversionPriority.Low);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date firstAirDate = null;
+        try {
+            firstAirDate = formatter.parse(source.getFirstAired());
+        }
+        catch (Exception e){
+
+        }
+
+        toUpdate.setFirstAired(firstAirDate);
+        toUpdate.setContentRating(source.getContentRating());
+        toUpdate.setImdbId(source.getImdbId());
+        toUpdate.setNetwork(source.getNetwork());
+        toUpdate.setOverview(source.getOverview());
+        toUpdate.setRating(Double.parseDouble(source.getRating()));
+        toUpdate.setRuntime(source.getRuntime());
+        toUpdate.setStatus(source.getStatus());
+        toUpdate.setLastUpdated(Integer.parseInt(source.getLastUpdated()));
+
+    }
+
 
     private Genre getGenreByName(String name){
 

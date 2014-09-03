@@ -79,6 +79,53 @@ public class TVService implements VideoConversionHandler{
         return true;
     }
 
+    @Transactional
+    public Boolean updateSeriesById(Long id, String language){
+        kstream.domain.Series s = _seriesRepository.findOne(id);
+
+        if (s == null) return false;
+
+        com.omertron.thetvdbapi.model.Series series = _tvDbService.getSeriesById(s.getTvDbId(), language);
+
+        Integer latestUpdate = Integer.parseInt(series.getLastUpdated());
+        Integer currentDate = s.getLastUpdated();
+        if (currentDate >= latestUpdate) return false;
+
+
+        _seriesMapper.update(series, s);
+
+        List<com.omertron.thetvdbapi.model.Episode> episodes = _tvDbService.getAllEpisodesBySeriesId(series.getId(), language);
+        List<List<Episode>> episodesList = getSeriesEpisodes(id);
+        List<Episode> toAdd = new ArrayList<Episode>();
+
+        for (com.omertron.thetvdbapi.model.Episode ep: episodes){
+
+            if (currentDate >= Integer.parseInt(ep.getLastUpdated())) continue;
+
+            if (ep.getSeasonNumber() == 0) continue;
+
+            Integer seasonNum = ep.getSeasonNumber() - 1;
+            Integer episodeNum = ep.getEpisodeNumber() - 1;
+
+            if (seasonNum >= episodesList.size() || episodeNum >= episodesList.get(seasonNum).size()){
+                toAdd.add(_episodeMapper.map(ep));
+                continue;
+            }
+
+            Episode episode = episodesList.get(seasonNum).get(episodeNum);
+            _episodeMapper.update(ep, episode);
+            _episodeRepository.save(episode);
+        }
+
+        if (toAdd.size() > 0){
+            toAdd.stream().forEach(e -> s.addEpisode(e));
+        }
+
+        _seriesRepository.save(s);
+
+        return true;
+    }
+
     @Transactional(readOnly = true)
     public List<Series> searchSeriesByName(String name){
         return _seriesRepository.findByNameContaining(name);

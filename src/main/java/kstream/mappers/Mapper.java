@@ -9,5 +9,6 @@ package kstream.mappers;
 public interface Mapper<A, B> {
 
     A get(B source);
+    void update(A source, B toUpdate);
     B map(A source);
 }

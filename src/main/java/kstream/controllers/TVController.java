@@ -51,6 +51,8 @@ public class TVController {
     @RequestMapping("/tv/series/{seriesId}/episodes")
     public String getEpisodesBySeries(@PathVariable Long seriesId, ModelMap model){
 
+        _tvService.updateSeriesById(seriesId, "en");
+
         List<List<Episode>> seasons =  _tvService.getSeriesEpisodes(seriesId);
 
         model.addAttribute("seasons", seasons);
@@ -71,7 +73,6 @@ public class TVController {
 
     @RequestMapping("/tv/watch/episode/{episodeId}")
     public String watchEpisodeVideo(@PathVariable Long episodeId, ModelMap modelMap){
-
 
         Episode episode = _tvService.getEpisodeWithVideos(episodeId);
 

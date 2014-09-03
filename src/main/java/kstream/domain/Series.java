@@ -64,6 +64,9 @@ public class Series  {
 
     private String runtime;
 
+    @Column(name = "last_updated")
+    private Integer lastUpdated;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name="series_genres",
             joinColumns = {@JoinColumn(name="series_id", referencedColumnName="id")},
@@ -248,5 +251,13 @@ public class Series  {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Integer lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }

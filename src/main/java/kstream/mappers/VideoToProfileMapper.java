@@ -30,6 +30,11 @@ public class VideoToProfileMapper implements Mapper<Video, VideoProfile> {
     }
 
     @Override
+    public void update(Video source, VideoProfile toUpdate) {
+        throw new NotImplementedException();
+    }
+
+    @Override
     public VideoProfile map(Video source) {
 
         VideoProfile profile = new VideoProfile();

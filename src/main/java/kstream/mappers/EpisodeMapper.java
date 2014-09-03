@@ -19,30 +19,37 @@ public class EpisodeMapper implements Mapper<Episode, kstream.domain.Episode> {
 
     public kstream.domain.Episode map(Episode episode){
         kstream.domain.Episode ep = new kstream.domain.Episode();
-        ep.setName(episode.getEpisodeName());
-        ep.setEpisodeNumber(episode.getEpisodeNumber());
-        ep.setOverview(episode.getOverview());
-        ep.setTotalVideoCount(0);
-        ep.setVisibleVideoCount(0);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date firstAirDate = null;
-        try {
-            firstAirDate = formatter.parse(episode.getFirstAired());
-        }
-        catch (Exception e){
-
-        }
-        ep.setFirstAired(firstAirDate);
-
-        ep.setSeasonNumber(episode.getSeasonNumber());
-        ep.setTvDbId(episode.getId());
-
+        update(episode, ep);
         return ep;
     }
 
     public Episode get(kstream.domain.Episode episode){
         throw new NotImplementedException();
     }
+
+    @Override
+    public void update(Episode source, kstream.domain.Episode toUpdate) {
+        toUpdate.setName(source.getEpisodeName());
+        toUpdate.setEpisodeNumber(source.getEpisodeNumber());
+        toUpdate.setOverview(source.getOverview());
+        toUpdate.setTotalVideoCount(0);
+        toUpdate.setVisibleVideoCount(0);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date firstAirDate = null;
+        try {
+            firstAirDate = formatter.parse(source.getFirstAired());
+        }
+        catch (Exception e){
+
+        }
+        toUpdate.setFirstAired(firstAirDate);
+
+        toUpdate.setSeasonNumber(source.getSeasonNumber());
+        toUpdate.setTvDbId(source.getId());
+
+    }
+
+
 }
